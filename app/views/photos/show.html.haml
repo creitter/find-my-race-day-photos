@@ -1,0 +1,21 @@
+%p#notice= notice
+
+%p
+  %b Person:
+  = @photo.person
+%p
+  %b Location:
+  = @photo.location
+%p
+  %b Tags:
+  = @photo.tags
+%p
+  %b Note:
+  = @photo.note
+%p
+  = image_tag @photo.image.url unless @photo.image.nil?
+  = image_tag @photo.image.url(:medium) unless @photo.image.nil?
+  = image_tag @photo.image.url(:thumb) unless @photo.image.nil?
+= link_to 'Edit', edit_photo_path(@photo)
+\|
+= link_to 'Back', photos_path
