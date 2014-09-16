@@ -10,11 +10,11 @@
     = image_tag @photo.image.url(:thumb) unless @photo.image.nil?
     = f.file_field :image
   .field
-    = f.label :person
-    = f.number_field :person
+    / = f.label :user
+    / = f.number_field :user
   .field
-    = f.label :location
-    = f.number_field :location
+    / = f.label :location
+    / = f.number_field :location
   .field
     = f.label :tags
     = f.text_field :tags

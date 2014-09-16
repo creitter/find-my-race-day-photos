@@ -11,25 +11,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140730235121) do
+ActiveRecord::Schema.define(version: 20140916204329) do
 
-  create_table "people", force: true do |t|
-    t.string   "name"
+  create_table "locations", force: true do |t|
+    t.string   "description"
+    t.string   "geo_tag"
+    t.string   "longitude"
+    t.string   "latitude"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "photos", force: true do |t|
-    t.integer  "person"
-    t.integer  "location"
+    t.integer  "user_id"
+    t.integer  "location_id"
     t.string   "tags"
     t.string   "note"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "users", force: true do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "ip_address"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Description:
+  = @location.description
+%p
+  %b Geo tag:
+  = @location.geo_tag
+%p
+  %b Longitude:
+  = @location.longitude
+%p
+  %b Latitude:
+  = @location.latitude
+
+= link_to 'Edit', edit_location_path(@location)
+\|
+= link_to 'Back', locations_path
