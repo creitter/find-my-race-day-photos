@@ -13,8 +13,7 @@
   - @photos.each do |photo|
     %tr
       %td= image_tag photo.image.url(:thumb) unless photo.image.nil?
-      %td= photo.person
-      %td= photo.location
+      // %td= photo.location
       %td= photo.tags
       %td= photo.note
       %td= link_to 'Show', photo
