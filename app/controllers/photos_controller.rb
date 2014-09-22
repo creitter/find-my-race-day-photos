@@ -1,5 +1,6 @@
 class PhotosController < ApplicationController
   before_action :set_photo, only: [:show, :edit, :update, :destroy]
+  #before_filter :authenticate_user!, except: [:index, :show, :new, :create]
 
   # GET /photos
   # GET /photos.json
@@ -10,6 +11,7 @@ class PhotosController < ApplicationController
   # GET /photos/1
   # GET /photos/1.json
   def show
+    Rails.logger.debug "\n\n User #{current_user.inspect} \n\n"
   end
 
   # GET /photos/new
@@ -26,7 +28,9 @@ class PhotosController < ApplicationController
   def create
     @photo = Photo.create(photo_params)
     Rails.logger.debug "\n\n @photo #{@photo.inspect}\n\n"
-  
+    Rails.logger.debug "\n\n current_user #{current_user.inspect} \n\n"
+    @photo.user = current_user
+    @photo.save!
     
     respond_to do |format|
       if @photo.save

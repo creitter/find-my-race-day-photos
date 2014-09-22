@@ -14,3 +14,12 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+#Ignore public system photos
+/public/system/photos/
+
+# Ignore gitignore
+.gitignore
+
+# Ignore Gemfile.lock
+Gemfile.lock
