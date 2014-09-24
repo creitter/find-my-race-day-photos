@@ -1,8 +1,8 @@
 %p#notice= notice
 
 %p
-  %b Person:
-  /= @photo.user
+  %b Photographer:
+  = @photo.user.email if @photo.user
 %p
   %b Location:
   /= @photo.location

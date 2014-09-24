@@ -1,25 +1,31 @@
 %h1 Listing photos
 
-%table
-  %tr
-    %th Person
-    %th Location
-    %th Tags
-    %th Note
-    %th
-    %th
-    %th
-
-  - @photos.each do |photo|
+- if @photos.nil?
+  %div You don't have any photos to show
+  
+- if @photos
+  %table
     %tr
-      %td= image_tag photo.image.url(:thumb) unless photo.image.nil?
-      // %td= photo.location
-      %td= photo.tags
-      %td= photo.note
-      %td= link_to 'Show', photo
-      %td= link_to 'Edit', edit_photo_path(photo)
-      %td= link_to 'Destroy', photo, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      %th Person
+      %th Location
+      %th Tags
+      %th Note
+      %th
+      %th
+      %th
 
-%br
+    - @photos.each do |photo|
+      %tr
+        %td= image_tag photo.image.url(:thumb) unless photo.image.nil?
+        %td= photo.user.email if photo.user
+        // %td= photo.location
 
-= link_to 'New Photo', new_photo_path
+        %td= photo.tags
+        %td= photo.note
+        %td= link_to 'Show', photo
+        %td= link_to 'Edit', edit_photo_path(photo)
+        %td= link_to 'Destroy', photo, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+  %br
+
+%div= link_to 'New Photo', new_photo_path

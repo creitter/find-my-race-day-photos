@@ -5,13 +5,12 @@ class PhotosController < ApplicationController
   # GET /photos
   # GET /photos.json
   def index
-    @photos = Photo.all
+    @photos = current_user.photos
   end
 
   # GET /photos/1
   # GET /photos/1.json
   def show
-    Rails.logger.debug "\n\n User #{current_user.inspect} \n\n"
   end
 
   # GET /photos/new
@@ -27,10 +26,7 @@ class PhotosController < ApplicationController
   # POST /photos.json
   def create
     @photo = Photo.create(photo_params)
-    Rails.logger.debug "\n\n @photo #{@photo.inspect}\n\n"
-    Rails.logger.debug "\n\n current_user #{current_user.inspect} \n\n"
     @photo.user = current_user
-    @photo.save!
     
     respond_to do |format|
       if @photo.save
@@ -66,6 +62,13 @@ class PhotosController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  
+  # Used for moving a photo from the guest account to the logged in account
+  def reassign_photographer(old_photographer, new_photographer)
+    
+  end
+  
 
   private
     # Use callbacks to share common setup or constraints between actions.

@@ -3,5 +3,10 @@
   %li= link_to "Edit profile", edit_user_registration_path  | 
   %li= link_to "Logout", destroy_user_session_path, method: :delete
 - else
+  - if current_user.guest && current_user.photos.length > 0
+    %li= link_to "Sign Up & Save Photos", new_user_registration_path(move: true)
+    %li= link_to "Sign In & Save Photos", new_user_session_path(move: true)
+  
   %li= link_to "Sign Up", new_user_registration_path
   %li= link_to "Sign In", new_user_session_path
+

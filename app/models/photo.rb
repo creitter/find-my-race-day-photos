@@ -3,4 +3,12 @@ class Photo < ActiveRecord::Base
     validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
   
     belongs_to :user
+    
+    def self.move_to_new_photographer(old_photographer, new_photographer) 
+      photos_to_be_moved = Photo.where(user_id: old_photographer.id)
+      photos_to_be_moved.each { |photo| 
+        photo.user = new_photographer
+        photo.save
+      }
+    end
 end
