@@ -28,17 +28,21 @@ class ApplicationController < ActionController::Base
   
   def sign_in (resource_or_scope, *args)
     super
-    move_content guest_user, current_user if params["move"] == true
+    handle_this params
   end
   
 
   def sign_up (resource_or_scope, *args)
     super 
-    move_content guest_user, current_user if params["move"] == true
+    handle_this params
+  end
+  
+  def handle_this(params)
+     move_content guest_user, current_user if params["move"] == "true"
   end
   
   private
-  
+    
   def move_content(guest, current) 
     if guest_user && guest_user.photos.length>0
       Photo.move_to_new_photographer(guest_user,current_user)

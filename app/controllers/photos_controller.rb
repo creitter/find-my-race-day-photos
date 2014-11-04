@@ -62,13 +62,6 @@ class PhotosController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
-  
-  # Used for moving a photo from the guest account to the logged in account
-  def reassign_photographer(old_photographer, new_photographer)
-    
-  end
-  
 
   private
     # Use callbacks to share common setup or constraints between actions.

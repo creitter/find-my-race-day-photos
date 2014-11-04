@@ -31,13 +31,19 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 
 # Image uploaders
-gem "paperclip", "~> 4.1"
+gem 'paperclip', '~> 4.1'
+gem 'exifr', '~> 1.2.0'
 
 # Authentication
 gem "devise"
 
 group :development do
   gem 'rails_layout'
+end
+
+group :development, :test do
+  gem 'rspec'
+  gem 'rspec-rails'
 end
 
 group :doc do
