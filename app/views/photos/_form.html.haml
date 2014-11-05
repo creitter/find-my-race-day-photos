@@ -14,8 +14,8 @@
     .label Photographer
 
   .field
-    = f.label :location
-    = f.number_field :location_id
+    .label Where was this taken?
+    = text_field :location, :description
   .field
     = f.label :tags
     = f.text_field :tags

@@ -27,6 +27,7 @@ class PhotosController < ApplicationController
   def create
     @photo = Photo.create(photo_params)
     @photo.user = current_user
+    @photo.location = load_location_info(@photo)
     
     respond_to do |format|
       if @photo.save
@@ -43,6 +44,7 @@ class PhotosController < ApplicationController
   # PATCH/PUT /photos/1.json
   def update
     respond_to do |format|
+      @photo.location = load_location_info(@photo)
       if @photo.update(photo_params)
         format.html { redirect_to @photo, notice: 'Photo was successfully updated.' }
         format.json { head :no_content }
@@ -72,5 +74,26 @@ class PhotosController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def photo_params
       params.require(:photo).permit(:person, :location, :tags, :note, :image)
+    end
+    
+    def location_params
+       params.require(:location).permit(:description)
+    end
+    
+    # Load GPS and Location specific information for the photo
+    def load_location_info(photo)  
+      exif = EXIFR::JPEG.new(photo.image.path)
+      location = Location.create(location_params)
+      if not exif.nil? && exif.exif?
+        photo.date_taken = exif.date_time.to_date
+        if not exif.gps.nil?
+          location.longitude = exif.gps.longitude
+          location.latitude = exif.gps.latitude
+          location.altitude = exif.gps.altitude
+          location.image_direction = exif.gps.image_direction
+        end
+      end
+      location.save!
+      location
     end
 end

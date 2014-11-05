@@ -5,7 +5,7 @@
   = @photo.user.email if @photo.user
 %p
   %b Location:
-  /= @photo.location
+  = @photo.location.description
 %p
   %b Tags:
   = @photo.tags
