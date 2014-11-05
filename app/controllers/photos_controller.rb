@@ -27,8 +27,9 @@ class PhotosController < ApplicationController
   def create
     @photo = Photo.create(photo_params)
     @photo.user = current_user
-    @photo.location = load_location_info(@photo)
-    
+    @photo.location.description = location_params[:description]
+    @photo.location.save!
+
     respond_to do |format|
       if @photo.save
         format.html { redirect_to @photo, notice: 'Photo was successfully created.' }
@@ -80,20 +81,4 @@ class PhotosController < ApplicationController
        params.require(:location).permit(:description)
     end
     
-    # Load GPS and Location specific information for the photo
-    def load_location_info(photo)  
-      exif = EXIFR::JPEG.new(photo.image.path)
-      location = Location.create(location_params)
-      if not exif.nil? && exif.exif?
-        photo.date_taken = exif.date_time.to_date
-        if not exif.gps.nil?
-          location.longitude = exif.gps.longitude
-          location.latitude = exif.gps.latitude
-          location.altitude = exif.gps.altitude
-          location.image_direction = exif.gps.image_direction
-        end
-      end
-      location.save!
-      location
-    end
 end
