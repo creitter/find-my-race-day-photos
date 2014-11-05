@@ -24,15 +24,15 @@ class ApplicationController < ActionController::Base
   
   def sign_in (resource_or_scope, *args)
     super
-    handle_this params
+    handle_guest_to_loggedin params
   end
   
   def sign_up (resource_or_scope, *args)
     super 
-    handle_this params
+    handle_guest_to_loggedin params
   end
   
-  def handle_this(params)
+  def handle_guest_to_loggedin(params)
      move_content guest_user, current_user if params["move"] == "true"
   end
   
