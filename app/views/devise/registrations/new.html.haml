@@ -19,5 +19,8 @@
 
     .field
       = f.submit "Sign up"
+      
+  = hidden_field_tag "move", "#{params[:move]}"
+      
 
 = render "devise/shared/links"

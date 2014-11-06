@@ -23,7 +23,6 @@ class Photo < ActiveRecord::Base
   def load_location_info
     exif = EXIFR::JPEG.new(self.image.queued_for_write[:original].path)
   
-    Rails.logger.debug "\n\n In Load Location Info \n\n"
     if not exif.nil? && exif.exif?
       self.date_taken = exif.date_time.to_date if exif.date_time.present?
       if not exif.gps.nil?

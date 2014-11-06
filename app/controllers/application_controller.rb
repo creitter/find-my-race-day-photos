@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
   end
   
   def handle_guest_to_loggedin(params)
-     move_content guest_user, current_user if params["move"] == "true"
+    move_content guest_user, current_user if params["move"] == "true"
   end
   
 end
