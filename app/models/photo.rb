@@ -12,28 +12,42 @@ class Photo < ActiveRecord::Base
 
   after_image_post_process :load_location_info
   
+  # Allow all Photos from a photographer be moved to a new photographer
   def self.move_to_new_photographer(old_photographer, new_photographer) 
     photos_to_be_moved = Photo.where(user_id: old_photographer.id)
     photos_to_be_moved.each { |photo| 
       photo.user = new_photographer
-      photo.save
+      photo.save!
     }
   end
+
+  # Allow this photo to be moved to a new photographer
+  def move_to_new_photographer(new_photographer)
+    self.user = new_photographer
+    self.save!
+  end
   
+  # After the photo has been uploaded, process the exif info it has.
   def load_location_info
-    exif = EXIFR::JPEG.new(self.image.queued_for_write[:original].path)
+    
+    begin
+      exif = EXIFR::JPEG.new(self.image.queued_for_write[:original].path)
   
-    if not exif.nil? && exif.exif?
-      self.date_taken = exif.date_time.to_date if exif.date_time.present?
-      if not exif.gps.nil?
-        longitude = exif.gps.longitude
-        latitude = exif.gps.latitude
-        altitude = exif.gps.altitude
-        image_direction = exif.gps.image_direction
-        location = Location.create(longitude: exif.gps.longitude, latitude: exif.gps.latitude, altitude: exif.gps.altitude, image_direction:exif.gps.image_direction)
-      else
-        location = Location.create()
+      if not exif.nil? && exif.exif?
+        self.date_taken = exif.date_time.to_date if exif.date_time.present?
+        if not exif.gps.nil?
+          longitude = exif.gps.longitude
+          latitude = exif.gps.latitude
+          altitude = exif.gps.altitude
+          image_direction = exif.gps.image_direction
+          location = Location.create(longitude: exif.gps.longitude, latitude: exif.gps.latitude, altitude: exif.gps.altitude, image_direction:exif.gps.image_direction)
+        else
+          location = Location.create()
+        end
       end
+    rescue EXIFR::MalformedJPEG
+      Rails.logger.error "Malformed JPG. Could not get EXIF data."
+      location = Location.create()
     end
     self.location = location
   end

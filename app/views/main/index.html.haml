@@ -1,4 +1,19 @@
-%h1 Main
+%h1 Find My Race Day Photos
 
-.photos
-  =link_to "Show Photos", photos_path
+
+.tabs
+  %li.photographer
+    =link_to "Photographer", "", {class:"photographer_nav"}
+  %li.athlete
+    =link_to "Athlete", "", {class:"athlete_nav"}
+    
+.photographer.view
+  %strong Are you a Photographer?
+  .photos
+    =link_to "Upload Photo", new_photo_path
+    = render 'photos/form', photo: @photo
+
+.athlete.view
+  %strong Are you the Athlete?
+  .coming-soon
+    Coming Soon you will be able to search for photos of you at particular events we have photos for.

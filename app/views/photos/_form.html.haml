@@ -8,11 +8,11 @@
           %li= msg
 
   .field
-    = image_tag @photo.image.url(:thumb) unless @photo.image.nil?
+    = #image_tag @photo.image.url(:thumb) unless @photo.image.nil?
     = f.file_field :image
   .field
     .label Photographer
-
+    = #{current_user.id}
   .field
     .label Where was this taken?
     = text_field :location, :description
