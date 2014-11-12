@@ -17,9 +17,11 @@
 
 #Ignore public system photos
 /public/system/photos/
+/public/assets/photos/
 
 # Ignore gitignore
 .gitignore
+/db/schema.rb
 
 # Ignore Gemfile.lock
 Gemfile.lock
