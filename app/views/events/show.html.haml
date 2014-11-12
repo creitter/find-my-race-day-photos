@@ -1,0 +1,51 @@
+%p#notice= notice
+
+%p
+  %b Description:
+  = @event.description
+%p
+  %b Distance:
+  = convert_km_to_miles(@event.distance)
+%p
+  %b Event date:
+  = @event.event_date
+%p
+  %b Event website:
+  =link_to @event.website
+%p
+  %b Start address:
+  = @event.start_address
+%p
+  %b Start city:
+  = @event.start_city
+%p
+  %b Start state:
+  = @event.start_state
+%p
+  %b Start province:
+  = @event.start_province
+%p
+  %b Country:
+  = @event.country
+%p
+  %b End address:
+  = @event.end_address
+%p
+  %b End city:
+  = @event.end_city
+%p
+  %b End province:
+  = @event.end_province
+%p
+  %b End state:
+  = @event.end_state
+%p
+  %b Longitude:
+  = @event.longitude
+%p
+  %b Latitude:
+  = @event.latitude
+
+= link_to 'Edit', edit_event_path(@event)
+\|
+= link_to 'Back', events_path

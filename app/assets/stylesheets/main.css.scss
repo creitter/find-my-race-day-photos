@@ -2,14 +2,26 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+$active-color: lightgrey;
+
 .tabs li {
-  display:inline;
+  width: 200px;
+  display: inline-block;
+}
+
+.tabs li.active {
+  font-weight: bold;
+  background-color: $active-color;
 }
 
 .athlete {
-  display:none;
+  display: none;
 }
 
 .photographer-nav {
-  display:none;
+  display: none;
+}
+
+.athlete.active, .photographer.active {
+  background-color: $active-color;
 }

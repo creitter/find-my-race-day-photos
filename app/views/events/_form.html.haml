@@ -1,0 +1,55 @@
+= form_for @event do |f|
+  - if @event.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@event.errors.count, "error")} prohibited this event from being saved:"
+      %ul
+        - @event.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :description
+    = f.text_field :description
+  .field
+    = f.label :distance
+    = f.text_field :distance
+  .field
+    = f.label :event_date
+    = f.text_field :event_date
+  .field
+    = f.label :website
+    = f.text_field :website
+  .field
+    = f.label :start_address
+    = f.text_field :start_address
+  .field
+    = f.label :start_city
+    = f.text_field :start_city
+  .field
+    = f.label :start_state
+    = f.text_field :start_state
+  .field
+    = f.label :start_province
+    = f.text_field :start_province
+  .field
+    = f.label :country
+    = f.text_field :country
+  .field
+    = f.label :end_address
+    = f.text_field :end_address
+  .field
+    = f.label :end_city
+    = f.text_field :end_city
+  .field
+    = f.label :end_province
+    = f.text_field :end_province
+  .field
+    = f.label :end_state
+    = f.text_field :end_state
+  .field
+    = f.label :longitude
+    = f.text_field :longitude
+  .field
+    = f.label :latitude
+    = f.text_field :latitude
+  .actions
+    = f.submit 'Save'

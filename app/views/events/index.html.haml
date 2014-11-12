@@ -1,0 +1,43 @@
+%h1 Listing events
+
+%table
+  %tr
+    %th Description
+    %th Distance
+    %th Event date
+    %th Start address
+    %th Start city
+    %th Start state
+    %th Start province
+    %th Country
+    %th End address
+    %th End city
+    %th End province
+    %th End state
+    %th Longitude
+    %th Latitude
+
+  - @events.each do |event|
+    %tr
+      %td= event.description
+      %td= wordy_distance(event.distance)
+      %td=link_to event.website, "http://#{event.website}", {target: "race"}
+      %td= event.event_date.strftime("%b %e, %Y")
+      %td= event.start_address
+      %td= event.start_city
+      %td= event.start_state
+      %td= event.start_province
+      %td= event.country
+      %td= event.end_address
+      %td= event.end_city
+      %td= event.end_province
+      %td= event.end_state
+      %td= event.longitude
+      %td= event.latitude
+      %td= link_to 'Show', event
+      %td= link_to 'Edit', edit_event_path(event)
+      %td= link_to 'Destroy', event, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Event', new_event_path
