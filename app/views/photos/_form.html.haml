@@ -8,20 +8,22 @@
           %li= msg
 
   .field
-    = #image_tag @photo.image.url(:thumb) unless @photo.image.nil?
-    = f.file_field :image
-  - if !current_user.guest? 
+    = image_tag @photo.image.url(:thumb) if @photo.image.present?
+    = f.file_field :image, multiple: true
+  
+  - if @state == :edit
+    - if !current_user.guest? 
+      .field
+        .label Photographer
+        = #{current_user.id}
     .field
-      .label Photographer
-      = #{current_user.id}
-  .field
-    .label Where was this taken?
-    = text_field :location, :description
-  .field
-    = f.label :tags
-    = f.text_field :tags
-  .field
-    = f.label :note
-    = f.text_field :note
+      .label Where was this taken?
+      = text_field :location, :description
+    .field
+      = f.label :tags
+      = f.text_field :tags
+    .field
+      = f.label :note
+      = f.text_field :note
   .actions
     = f.submit 'Save'

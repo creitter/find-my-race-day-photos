@@ -6,20 +6,20 @@
 - if @photos
   %table
     %tr
+      %th Image
       %th Photographer
       %th Location
       %th Tags
       %th Note
-      %th
+      %th{colspan:3} Actions
       %th
       %th
 
     - @photos.each do |photo|
       %tr
         %td= image_tag photo.image.url(:thumb) unless photo.image.nil?
-        %td= photo.user.email if photo.user
-        // %td= photo.location
-
+        %td= photo.user.guest? ? "Guest Account" : photo.user.email 
+        %td= photo.location.description
         %td= photo.tags
         %td= photo.note
         %td= link_to 'Show', photo

@@ -16,19 +16,25 @@ class PhotosController < ApplicationController
   # GET /photos/new
   def new
     @photo = Photo.new
+    @state = :new
   end
 
   # GET /photos/1/edit
   def edit
+    @state = :edit
   end
 
   # POST /photos
   # POST /photos.json
   def create
-    @photo = Photo.create(photo_params)
-    @photo.user = current_user
-    @photo.location.description = location_params[:description]
-    @photo.location.save!
+    photo_params[:image].each { |image|
+      @photo = Photo.create(image: image)
+      @photo.user = current_user
+      # => @photo.location.description = location_params[:description]
+      @photo.location.save!
+      @photo.save
+      Rails.logger.debug "\n\n @photo #{@photo.inspect} \n\n"
+    }
 
     respond_to do |format|
       if @photo.save
@@ -45,7 +51,9 @@ class PhotosController < ApplicationController
   # PATCH/PUT /photos/1.json
   def update
     respond_to do |format|
-      @photo.location = load_location_info(@photo)
+      @photo.location.description = location_params[:description]
+      @photo.location.save!
+      
       if @photo.update(photo_params)
         format.html { redirect_to @photo, notice: 'Photo was successfully updated.' }
         format.json { head :no_content }
@@ -74,7 +82,7 @@ class PhotosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def photo_params
-      params.require(:photo).permit(:person, :location, :tags, :note, :image)
+      params.require(:photo).permit(:person, :location, :tags, :note, :image => [])
     end
     
     def location_params
