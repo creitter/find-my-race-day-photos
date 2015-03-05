@@ -9,14 +9,12 @@
     = f.label :password
     = f.password_field :password, autocomplete: "off"
 
-  - if devise_mapping.rememberable?
+  - if @has_photos_to_upload
     .field
-    = f.check_box :remember_me 
-    = f.label :remember_me 
+    = f.check_box :move_photos
+    = f.label "Would you like to save the photos you uploaded?"
   .field
     = f.submit "Login"
-
-  = hidden_field_tag "move", "#{params[:move]}"
 
 .field
 = render "devise/shared/links" 

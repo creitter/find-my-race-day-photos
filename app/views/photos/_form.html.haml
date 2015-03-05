@@ -1,4 +1,14 @@
-= form_for @photo, :html => { :multipart => true } do |f|
+:javascript
+
+  Dropzone.options.myAwesomeDropzone = {
+    paramName: "file", // The name that will be used to transfer the file
+    maxFilesize: 3, // MB
+    uploadMultiple: true
+  };
+  var auto_discover  = "#{@state}" != "edit"
+  Dropzone.autoDiscover = auto_discover
+  
+= form_for @photo, :html => { multipart: true, class: "dropzone", id: "my-awesome-dropzone" } do |f|
 
   - if @photo.errors.any?
     #error_explanation
@@ -9,7 +19,6 @@
 
   .field
     = image_tag @photo.image.url(:thumb) if @photo.image.present?
-    = f.file_field :image, multiple: true
   
   - if @state == :edit
     - if !current_user.guest? 
@@ -25,5 +34,5 @@
     .field
       = f.label :note
       = f.text_field :note
-  .actions
-    = f.submit 'Save'
+    .actions
+      = f.submit 'Save'

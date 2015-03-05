@@ -4,6 +4,27 @@
 
 $active-color: lightgrey;
 
+ul.nav li {
+  display: inline;
+}
+ul.nav li a {
+  padding: 10px 15px 10px;
+  color: #777777;
+  text-decoration: none;
+  text-shadow: 0 1px 0 white;
+  float:right;
+}
+
+a {
+  color: #000;
+  &:visited {
+    color: #000;
+  }
+  &:hover {
+    color: #666;
+  }
+}
+
 .tabs li {
   width: 200px;
   display: inline-block;

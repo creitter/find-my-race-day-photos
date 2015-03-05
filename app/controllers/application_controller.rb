@@ -21,19 +21,9 @@ class ApplicationController < ActionController::Base
     session[:guest_user_id] = nil
     guest_user
   end
-  
-  def sign_in (resource_or_scope, *args)
-    super
-    handle_guest_to_loggedin params
-  end
-  
+    
   def sign_up (resource_or_scope, *args)
     super 
-    handle_guest_to_loggedin params
   end
-  
-  def handle_guest_to_loggedin(params)
-    move_content guest_user, current_user if params["move"] == "true"
-  end
-  
+
 end

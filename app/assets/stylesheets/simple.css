@@ -16,15 +16,6 @@ header {
   margin-bottom: 20px;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
-ul.nav li {
-  display: inline;
-}
-ul.nav li a {
-  padding: 10px 15px 10px;
-  color: #777777;
-  text-decoration: none;
-  text-shadow: 0 1px 0 white;
-}
 .flash_notice, .flash_alert {
   padding: 8px 35px 8px 14px;
   margin-bottom: 20px;

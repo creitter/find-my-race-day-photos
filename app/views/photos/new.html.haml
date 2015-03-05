@@ -1,5 +1,4 @@
 %h1 New photo
 
-= render 'form'
-
-= link_to 'Back', photos_path
+= render 'form', photo: @photo
+= link_to 'All of my photos', photos_path

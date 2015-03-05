@@ -23,8 +23,13 @@ class Photo < ActiveRecord::Base
 
   # Allow this photo to be moved to a new photographer
   def move_to_new_photographer(new_photographer)
+    
+    puts "photo #{self.inspect}"
+    puts "new_photographer #{new_photographer}"
+    
     self.user = new_photographer
     self.save!
+    puts "here"
   end
   
   # After the photo has been uploaded, process the exif info it has.
@@ -40,7 +45,9 @@ class Photo < ActiveRecord::Base
           latitude = exif.gps.latitude
           altitude = exif.gps.altitude
           image_direction = exif.gps.image_direction
-          location = Location.create(longitude: exif.gps.longitude, latitude: exif.gps.latitude, altitude: exif.gps.altitude, image_direction:exif.gps.image_direction)
+          description =  !longitude.nil? && !latitude.nil? ? "Map location available" : ""
+
+          location = Location.create(description: description, longitude: exif.gps.longitude, latitude: exif.gps.latitude, altitude: exif.gps.altitude, image_direction:exif.gps.image_direction)
         else
           location = Location.create()
         end

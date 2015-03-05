@@ -35,7 +35,11 @@ gem 'paperclip', '~> 4.1'
 gem 'exifr', '~> 1.2.0'
 
 # Authentication
-gem "devise"
+gem 'devise'
+
+# Geo-location
+gem 'geokit'
+gem 'geokit-rails'
 
 group :development do
   gem 'rails_layout'
