@@ -1,4 +1,6 @@
 (function($) {
+  var state = "#{@state}";
+
   var ready = function() {
     $("a.photographer_nav").click(function(event) { 
       event.stopPropagation();
@@ -19,6 +21,10 @@
     } else {
       $("a.photographer_nav").click();
     }
+    
+    Dropzone.autoDiscover = false
+    var state = $("#my-awesome-dropzone").data("state");
+    $(document).on('page:change', initializeDropZone(state));
   };
   
   //http://stackoverflow.com/questions/17600093/rails-javascript-not-loading-after-clicking-through-link-to-helper
@@ -33,5 +39,17 @@
     $(show_view).show().addClass("active");
     $("li", $(link).closest("div.tabs")).removeClass("active");
     $(link).parent().addClass("active");
+  }
+  
+  function initializeDropZone(state) {
+    if (state != "edit") {
+      Dropzone.options.myAwesomeDropzone = {
+        paramName: "file", // The name that will be used to transfer the file
+        maxFilesize: 3, // MB
+        uploadMultiple: true
+      };
+      
+      $("#my-awesome-dropzone").dropzone();
+    }
   }
 })(jQuery);

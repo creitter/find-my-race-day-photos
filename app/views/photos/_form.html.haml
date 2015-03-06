@@ -1,13 +1,3 @@
-:javascript
-
-  Dropzone.options.myAwesomeDropzone = {
-    paramName: "file", // The name that will be used to transfer the file
-    maxFilesize: 3, // MB
-    uploadMultiple: true
-  };
-  var auto_discover  = "#{@state}" != "edit"
-  Dropzone.autoDiscover = auto_discover
-  
 = form_for @photo, :html => { multipart: true, class: "dropzone", id: "my-awesome-dropzone" } do |f|
 
   - if @photo.errors.any?
@@ -36,3 +26,7 @@
       = f.text_field :note
     .actions
       = f.submit 'Save'
+
+:javascript
+  var state = "#{@state}";
+  $("#my-awesome-dropzone").data("state", state);

@@ -1,6 +1,5 @@
 %h1 Find My Race Day Photos
 
-
 .tabs
   %li.photographer
     =link_to "Photographer", "", {class:"photographer_nav"}
@@ -10,8 +9,8 @@
 .photographer.view
   %strong Are you a Photographer?
   .photos
-    = #link_to "Upload Photo", new_photo_path
     = render 'photos/form', photo: @photo
+    %button.nextBtn{id: "nextBtn"} Next
 
 .athlete.view
   %strong Are you the Athlete?
