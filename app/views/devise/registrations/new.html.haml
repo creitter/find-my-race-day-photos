@@ -17,10 +17,13 @@
     = f.label :password_confirmation
     = f.password_field :password_confirmation, autocomplete: "off"
 
+  - if @has_photos_to_upload
+    .field
+    = f.check_box :move_photos, {checked: true}
+    = f.label "Would you like to save the photos you uploaded?"
+
+
     .field
       = f.submit "Sign up"
       
-  = hidden_field_tag "move", "#{params[:move]}"
-      
-
 = render "devise/shared/links"

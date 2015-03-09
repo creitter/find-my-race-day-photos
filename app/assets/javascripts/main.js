@@ -46,7 +46,15 @@
       Dropzone.options.myAwesomeDropzone = {
         paramName: "file", // The name that will be used to transfer the file
         maxFilesize: 3, // MB
-        uploadMultiple: true
+        uploadMultiple: true,
+        success: function (file) {
+          // Show the Next button if we haven't already.
+          if ($("#nextBtn").is(":hidden"))
+            $("#nextBtn").show();
+        }, 
+        error: function (file, message) {
+          alert ("error uploading: " + file.name + " " + message)
+        }
       };
       
       $("#my-awesome-dropzone").dropzone();

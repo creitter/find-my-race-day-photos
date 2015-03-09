@@ -1,7 +1,7 @@
 Racedayphotos::Application.routes.draw do
   resources :events
 
-  devise_for :users, controllers: { sessions: 'users/sessions'}, 
+  devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }, 
         path_names: { sign_in: "login", sign_out: "logout", sign_up: "register" }
 
   resources :users

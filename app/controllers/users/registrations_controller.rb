@@ -3,14 +3,24 @@ class Users::RegistrationsController < Devise::RegistrationsController
 # before_filter :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
-  # def new
-  #   super
-  # end
+  def new
+    if guest_user && guest_user.has_photos?
+      flash[:notice] = "Guest has photos"
+      @has_photos_to_upload = true
+    end
+      
+    super
+  end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    super
+
+    if params[:user][:move_photos] == "1"
+      move_content guest_user, current_user 
+    end
+    
+  end
 
   # GET /resource/edit
   # def edit
