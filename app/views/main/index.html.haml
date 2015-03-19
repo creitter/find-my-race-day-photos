@@ -12,8 +12,6 @@
     .show-my-photos-link
       =link_to "Show all of my uploaded photos", photos_path, {class: "show-photos-link"}
   
-  %div Upload your photos here
-  
   .photos
     = render 'photos/form', photo: @photo
     %button.nextBtn{id: "nextBtn", url: photos_path} Next

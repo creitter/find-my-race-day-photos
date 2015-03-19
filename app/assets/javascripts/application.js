@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require jquery.cookie.js
 //= require dropzone.js
+//= require jquery.jcarousel.min.js
 //= require turbolinks
 //= require_tree .
 

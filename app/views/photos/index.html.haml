@@ -4,6 +4,14 @@
   %div You don't have any photos to show
   
 - if @photos
+
+  %button.prevPhotoSetBtn{id: "prevPhotoSetBtn", url: photos_path} <<
+  .jcarousel
+    %ul
+      - @photos.each do |photo|
+        %li= link_to image_tag(photo.image.url(:thumb)), "#", class: "photo", data: {photo_id:"#{photo.id}"} unless photo.image.nil?
+  %button.nextPhotoSetBtn{id: "nextPhotoSetBtn", url: photos_path} >> 
+    
   %table
     %tr
       %th Image
@@ -29,3 +37,6 @@
   %br
 
 %div= link_to 'New Photo', new_photo_path
+
+
+#showBig
