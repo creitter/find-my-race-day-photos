@@ -2,6 +2,7 @@ class Photo < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :location
+  belongs_to :event
 
   has_attached_file :image, :styles => { :large => "700x700", :medium => "300x300>", :thumb => "100x100>" }, 
     :default_url => "/images/:style/missing.png",
@@ -23,13 +24,8 @@ class Photo < ActiveRecord::Base
 
   # Allow this photo to be moved to a new photographer
   def move_to_new_photographer(new_photographer)
-    
-    puts "photo #{self.inspect}"
-    puts "new_photographer #{new_photographer}"
-    
     self.user = new_photographer
     self.save!
-    puts "here"
   end
   
   # After the photo has been uploaded, process the exif info it has.
@@ -39,7 +35,15 @@ class Photo < ActiveRecord::Base
       exif = EXIFR::JPEG.new(self.image.queued_for_write[:original].path)
   
       if not exif.nil? && exif.exif?
-        self.date_taken = exif.date_time.to_date if exif.date_time.present?
+        
+        if exif.date_time.present?
+          self.date_taken = exif.date_time.to_date 
+        else
+          Rails.logger.debug "\n\n LOAD_LOCATION_INFO exif #{exif.inspect} \n\n"
+          Rails.logger.debug "\n\n image #{self.image.inspect} \n\n"
+          #self.date_taken = self.date_created
+        end
+        
         if not exif.gps.nil?
           longitude = exif.gps.longitude
           latitude = exif.gps.latitude

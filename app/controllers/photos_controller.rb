@@ -1,6 +1,7 @@
 class PhotosController < ApplicationController
   before_action :set_photo, only: [:show, :edit, :update, :destroy]
   before_action :save_return_to, only: [:show, :edit, :update]
+  after_action :save_to_event, only: [:create]
   #before_filter :authenticate_user!, except: [:index, :show, :new, :create]
 
   # GET /photos
@@ -28,10 +29,11 @@ class PhotosController < ApplicationController
   # POST /photos
   # POST /photos.json
   def create
+    @errors = []
+    @photos = []
+
     params[:file].each {|file|
       image = file[1]
-      @errors = []
-      @photos = []
       @photo = Photo.create(image: image)
       @photo.user = current_user
       @photo.location.save!
@@ -42,11 +44,13 @@ class PhotosController < ApplicationController
         @errors << @photo.error
       end
     }
+    
+    Rails.logger.debug "\n\n @photos (#{@photos.count}) - #{@photos.inspect} \n\n"
 
     respond_to do |format|
       if @errors.empty?
         format.html { redirect_to @photo  , notice: 'Photo was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @photos }
+        format.json { render action: 'show', status: :created, location: photo_url(@photos)}
       else
         format.html { render action: 'new' }
         format.json { render json: @errors, status: :unprocessable_entity }
@@ -96,6 +100,48 @@ class PhotosController < ApplicationController
         # else we use the previously saved return_to url.
       end
       
+    end
+    
+    def save_to_event
+      Rails.logger.debug "\n\n In SAVE_TO_EVENT:: @photos #{@photos} \n\n"
+
+      begin
+        sorted_photos = @photos.sort_by!{|photo| photo.date_taken }
+      rescue NoMethodError => e
+        Rails.logger.debug "\n\n Error #{e.message} \n\n"
+      end
+      # Using the photo, determine if we already have an event based on the photo's date, location and possibly entered event. (start with date_taken first)
+      
+      # If we have an event for this date (/location and/or entered date criteria), then assign it.
+      # If we don't create a blank event and get the Photographer to fill it out.
+      @events = []
+      @events_error = []
+      
+      sorted_photos.each {|photo| 
+        @event = Event.where(event_date: photo.date_taken)
+        Rails.logger.debug "\n\n @event in sorted_photos #{@event.inspect} \n\n"
+        if @event.empty? 
+          @event = Event.new(description: "New Event", event_date: photo.date_taken)
+          if @event.save
+            photo.event = @event
+            photo.save
+            #TODO: Add error handling here.
+            @events << @event
+          else
+            @events_error << "Event not saved #{@event}"
+          end
+          Rails.logger.debug "\n\n NEW @event in sorted_photos #{@event.inspect} \n\n"
+        else
+          @events << @event
+          #TODO: Add error handling here.
+          photo.event = @event.first
+          Rails.logger.info "\n\n There was more than one Event found matching this criteria #{@event.inspect} \n\n"
+          photo.save
+        end
+      }
+
+      Rails.logger.debug "\n\n @events #{@events.inspect} \n\n"
+      Rails.logger.debug "\n\n @events_error #{@events_error.inspect} \n\n"
     end
     
     # Never trust parameters from the scary internet, only allow the white list through.

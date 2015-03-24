@@ -5,11 +5,11 @@ class CreateEvents < ActiveRecord::Migration
       t.decimal :distance, precision:5, scale:3
       t.datetime :event_date, null:false
       t.string :website, default: nil
-      t.string :start_address, null:false
-      t.string :start_city, null:false
-      t.string :start_state, null:false
+      t.string :start_address, default: nil
+      t.string :start_city, default: nil
+      t.string :start_state, default: nil
       t.string :start_province, default: nil
-      t.string :country, null:false
+      t.string :country, default: nil
       t.string :end_address
       t.string :end_city
       t.string :end_province
